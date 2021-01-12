@@ -8,7 +8,7 @@ def plus_minus(sign, nbr):
     else:
         return -nbr
 
-string = str(sys.stdin.readline().rstrip('\n'))
+string = str(sys.stdin.readline().rstrip('\n'))     # 개행문자('\n')를 없애기 위해 rstrip('\n') 
 
 answer = 0
 sign = 0        # 0 + / 1 -
