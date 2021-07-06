@@ -1,0 +1,53 @@
+import sys
+
+# 해당 위치의 정사각형에 같은 숫자가 있는지 확인
+def checkSquare(x, y, k):
+    row = x//3 * 3
+    col = y//3 * 3
+
+    for i in range(row, row+3):
+        for j in range(col, col+3):
+            if Sudoku[i][j] == k:
+                return False
+
+    return True
+
+
+# 해당 위치의 가로/세로에 같은 숫자가 있는지 확인
+def checkHor(x, k):
+    for i in Sudoku[x]:      # 가로 줄 확인
+        if i == k:
+            return False
+
+    return True
+
+
+def checkVer(y, k):
+    for i in range(9):      # 세로 줄 확인
+        if Sudoku[i][y] == k:
+            return False
+
+    return True
+
+
+def check(pos):
+    # 종료조건 - 모든 칸을 채운 경우
+    if pos == len(zeroPlace):
+        for i in range(9):
+            for j in Sudoku[i]:
+                print(j, end=" ")
+            print()
+        sys.exit()
+    else:
+        x, y = zeroPlace[pos][0], zeroPlace[pos][1]
+        for k in range(1, 10):
+            # checkSqure가 맨 앞에 오면 시간초과 발생 / 검사 순서도 
+            if checkHor(x, k) and checkVer(y, k) and checkSquare(x, y, k):
+                Sudoku[x][y] = k
+                check(pos+1)
+                Sudoku[x][y] = 0
+
+
+Sudoku = [list(map(int, input().split())) for i in range(9)]    # 주어진 스도쿠 저장 배열
+zeroPlace = [(i, j) for i in range(9) for j in range(9) if Sudoku[i][j] == 0]  # 0의 위치
+check(0)
